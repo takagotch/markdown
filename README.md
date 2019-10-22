@@ -100,6 +100,39 @@ class TestCodeHilite(TestCaseWithAssertStartsWith):
         '</code></pre>'
       )
 
+
+class TestFencedCode(TestCaseWithAssertStartsWith):
+  def setUp(self):
+    self.md = markdown.Markdown(extensions=['fenced_code'])
+    self.has_pygments = True
+    try:
+      import pygments 
+    except ImportError:
+      self.has_pygments = False
+  
+  def testBasicFence(self):
+    
+    self.assertEqual(
+      self.md.convert(text),
+      ''
+      ''
+      ''
+    )
+    
+  def testSafeFence(self):
+    """ """
+    text = ''
+    self.md.safeMode = 'replace'
+    self.assertEqual(
+      self.md.convert(text),
+      ''
+      ''
+    )
+  
+  def testNestedFence(self):
+    """ """
+    test = '''
+    '''
 ```
 
 ```
