@@ -79,7 +79,26 @@ class TestAbbr(unittest.TestCase):
       'and <em><abbr title="Abreviation">ABBR</abbr></em></p>'
     )
     
-
+class TestCodeHilite(TestCaseWithAssertStartsWith):
+  
+  def setUp(self):
+    self.has_pygments = True
+    try:
+      import pygments 
+    except ImportError:
+      self.has_pygments = False
+      
+  def testBasicCodeHilite(self):
+    text = '\t# A Code Comment'
+    md = markdown.Markdown(extensions=['codehilite'])
+    if self.has_pygmetns:
+      self.assertStartsWith('<div class="codehilite"><pre>', md.convert(text))
+    else:
+      self.assertEqual(
+        md.convert(text),
+        '<pre class="codehilite"><code># A Code Comment'
+        '</code></pre>'
+      )
 
 ```
 
